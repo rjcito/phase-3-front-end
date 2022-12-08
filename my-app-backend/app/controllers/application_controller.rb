@@ -33,13 +33,7 @@ class ApplicationController < Sinatra::Base
     daycare.to_json(include: :reviews)
   end
 
-  # patch '/daycares/:id' do
-  #   daycare = Daycare.find(params[:id])
-  #   daycare.update(
-  #     comment: params[:comment]
-  #   )
-  #   daycare.to_json(include: :reviews)
-  # end
+
 
   
   patch '/daycares/:id' do
