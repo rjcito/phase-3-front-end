@@ -1,10 +1,14 @@
-import React, {useState} from 'react'
+import React from 'react'
+import EditDaycareForm from './EditDaycareForm';
+import { NavLink } from "react-router-dom";
+
 // import EditReview from './EditReview';
 // import DaycareReviews from './DaycareReviews';
 
-const DaycareCard = ({daycare, onDeleteDaycare }) =>{
-    const [comment, setComment] = useState("")
-    console.log(daycare)
+const DaycareCard = ({daycare, onDeleteDaycare, onEditDaycare }) =>{
+
+    const[isEditing, setIsEditing] = ("false")
+    
 
     function handleDeleteClick() {
         fetch(`http://localhost:9292/daycares/${daycare.id}`,{
@@ -14,41 +18,44 @@ const DaycareCard = ({daycare, onDeleteDaycare }) =>{
         onDeleteDaycare(daycare.id);
     }
 
-    function handleEditReview(e) {
-        e.preventDefault()
-           fetch(`http://localhost:9292/daycares/${daycare.id}`,{
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                comment:comment,
 
-            }),
-        })
-        .then((r)=> r.json())
-        .then((updatedReview) => setComment(updatedReview));
-    }
+
+    // function handleEditDaycare (updatedDaycare) { 
+    //     setIsEditing(false)
+    //     onEditDaycare(updatedDaycare)
+
+
+    // }
+        
+
+
     return(
-    
-           
-        <div key = {daycare.id}>
-            <h3>{daycare.name}</h3>
+        <li>
+            {isEditing ? (
+
+            
+            <div key = {daycare.id}>
+            <h1>Daycare Name: {daycare.name}</h1>
+            <h2>Price: {daycare.cost} / week</h2>
+            <h3>Located in: {daycare.city}</h3>
+            <button onClick = {handleDeleteClick}>Delete Daycare</button>
+            <NavLink to={`/daycares/${daycare.id}/edit`}>Edit Daycare</NavLink>
+            <NavLink to={`/daycares/${daycare.id}/reviews/new`}>Add Review</NavLink>
+
+            
             {daycare.reviews.map((review) => (
                 <div key={daycare.id}>
                     Review: {review.comment}
-                    <button onClick={handleEditReview}>Edit Review</button>
                 </div>
             ))}
-            <button onClick = {handleDeleteClick}>Delete Daycare</button> 
+        
         </div>
-                
-    
-            
-              
+            ) : (
+            <EditDaycareForm />    )}
+        </li>
+        
+                    
     )
-    
-
 }
 
     

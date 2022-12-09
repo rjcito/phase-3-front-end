@@ -8,7 +8,7 @@ const DaycareReviews = ({ daycareId }) => {
             .then((daycare) => setDaycare(daycare))
     }, [daycareId]);
 
-    if (!daycare) return <h2>Loading daycare data...</h2>
+    
 
     return ( 
         <div>
