@@ -33,9 +33,6 @@ class ApplicationController < Sinatra::Base
     daycare.to_json(include: :reviews)
   end
 
-
-
-  
   patch '/daycares/:id' do
     daycare = Daycare.find(params[:id])
     daycare.update(
@@ -45,6 +42,19 @@ class ApplicationController < Sinatra::Base
     )
     daycare.to_json(include: :reviews)
   end
+
+  post '/daycares/:daycare_id' do
+  # post '/daycares/:daycare_id/reviews' do change in next line, 
+  # use restful routes
+    daycare = Daycare.find(params[:daycare_id])
+    review = daycare.reviews.create(
+      rating: params[:rating],
+      comment: params[:comment]
+
+    )
+    review.to_json
+  end
+
   
 
 
